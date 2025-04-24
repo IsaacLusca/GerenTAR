@@ -3,9 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ title }} - Flask aplication</title>
-</head>
+    {% if title %}
+    <title>{{ title }} - GerenTar</title>
+    {% else %}
+    <title>Bem vindo! - GerenTar</title>
+    {% endif %}</head>
 <body>
     <h1>Bem vindo, {{ user.username }}!</h1>
+
+    {% for post in posts %}
+        <div><p>{{post.autor.username}} disse: <b>{{ post.body }}</b></p></div>
+    {% endfor %}
 </body>
 </html>
