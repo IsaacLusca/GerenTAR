@@ -8,3 +8,5 @@ __pycache__/
 # Ignore configurações específicas de IDEs
 .vscode/
 .idea/
+
+zguia.txt
