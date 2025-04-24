@@ -1,18 +1,12 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% if title %}
-    <title>{{ title }} - GerenTar</title>
-    {% else %}
-    <title>Bem vindo! - GerenTar</title>
-    {% endif %}</head>
-<body>
-    <h1>Bem vindo, {{ user.username }}!</h1>
+{% extends "base.html" %}
 
+{% block content %}
+    <h1>Olá, {{ user.username }}</h1>
+    <p>Bem-vindo ao GerenTar, o sistema de gerenciamento de tarefas!</p>
     {% for post in posts %}
-        <div><p>{{post.autor.username}} disse: <b>{{ post.body }}</b></p></div>
+        <div>
+            <p>{{ post.autor.username }} disse: <b>{{ post.body }}</b></p>
+        </div>
     {% endfor %}
-</body>
-</html>
+    
+{% endblock %}
