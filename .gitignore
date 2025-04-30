@@ -10,3 +10,4 @@ __pycache__/
 .idea/
 
 zguia.txt
+app.db
