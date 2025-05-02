@@ -37,8 +37,9 @@ def index():
         return redirect(url_for('index'))
     
     # Busca todas as tarefas do usuário atual
-    posts = Task.query.filter_by(author=current_user).all()
-    return render_template('index.html', title='Home', form=form, posts=posts)
+    posts = Task.query.filter_by(author=current_user, status=False).all()
+    posts_check = Task.query.filter_by(author=current_user, status=True).all()
+    return render_template('index.html', title='Home', form=form, posts=posts, posts_check=posts_check)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -89,3 +90,23 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
+
+@app.route('/task/<int:task_id>/complete', methods=['POST'])
+@login_required
+def complete_task(task_id):
+    # Busca a tarefa pelo ID e verifica se pertence ao usuário atual
+    task = Task.query.filter_by(id=task_id, user_id=current_user.id).first_or_404()
+    task.status = True  # Atualiza o status para True
+    db.session.commit()  # Salva as alterações no banco de dados
+    flash('Tarefa marcada como concluída!')
+    return redirect(url_for('index'))
+
+@app.route('/task/<int:task_id>/incomplete', methods=['POST'])
+@login_required
+def incomplete_task(task_id):
+    # Busca a tarefa pelo ID e verifica se pertence ao usuário atual
+    task = Task.query.filter_by(id=task_id, user_id=current_user.id).first_or_404()
+    task.status = False  # Atualiza o status para True
+    db.session.commit()  # Salva as alterações no banco de dados
+    flash('Tarefa marcada como incompleta!')
+    return redirect(url_for('index'))
