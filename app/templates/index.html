@@ -1,55 +1,89 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <!-- <h1>Olá, {{ current_user.username }}</h1> -->
-    <p>Bem-vindo ao GerenTar, visualize e adicione tarefas!</p>
+<div class="mt-4">
+    <h1 class="mb-3">Olá, {{ current_user.username }}</h1>
+    <p class="lead">Bem-vindo ao GerenTar, visualize e adicione tarefas!</p>
+
+    <!-- Lista de tarefas pendentes -->
+    <h4 class="mt-4">Tarefas Pendentes</h4>
     {% if posts %}
-        {% for post in posts %}
-        <div>
-            <!-- {{ post.id }} -->
-            <p>Tarefa: <b>{{ post.body }}</b></p>
-            <p>Até o dia: {{ post.deadline.strftime('%d/%m/%Y') if post.deadline else 'Sem data limite' }}</p>
-            <form action="{{ url_for('complete_task', task_id=post.id) }}" method="post" style="display:inline;">
-                {{ form.hidden_tag() }}
-                <button type="submit" class="btn btn-success">Marcar como concluída</button>
-            </form>
+        <div class="row row-cols-1 g-3">
+            {% for post in posts %}
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <p class="card-text"><strong>Tarefa:</strong> {{ post.body }}</p>
+                        <p class="card-text">
+                            <strong>Início</strong>
+                            {{ post.timestamp.strftime('%d/%m/%Y') if post.timestamp else 'Sem data de início' }}
+                        </p>
+                        <p class="card-text"><strong>Fim:</strong> 
+                            {{ post.deadline.strftime('%d/%m/%Y') if post.deadline else 'Sem data limite' }}
+                        </p>
+                        <form action="{{ url_for('complete_task', task_id=post.id) }}" method="post">
+                            {{ form.hidden_tag() }}
+                            <button type="submit" class="btn btn-success">Marcar como concluída</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
     {% else %}
-        <p>Você ainda não tem tarefas adicionadas.</p>
+        <p class="text-muted">Você ainda não tem tarefas adicionadas.</p>
     {% endif %}
-    
+
+    <!-- Formulário para nova tarefa -->
+    <h4 class="mt-5">Adicionar nova tarefa</h4>
     <form action="" method="post" novalidate>
         {{ form.hidden_tag() }}
-        <p>
-            {{ form.body.label }} 
-            {{ form.body(size=32) }} 
-            <!-- Mensagem de erro -->
-            {% for error in form.body.errors %}
-            <span style="color: tomato;">{{ error }}</span>
-            {% endfor %}
-            {{ form.deadline.label }} 
-            {{ form.deadline() }} 
-            {{ form.submit() }}
-        </p>
-
+        <div class="row g-3 align-items-end">
+            <div class="col-md-5">
+                <label for="body" class="form-label">{{ form.body.label }}</label>
+                {{ form.body(class="form-control") }}
+                {% for error in form.body.errors %}
+                <div class="text-danger small">{{ error }}</div>
+                {% endfor %}
+            </div>
+            <div class="col-md-3">
+                <label for="deadline" class="form-label">{{ form.deadline.label }}</label>
+                {{ form.deadline(class="form-control") }}
+            </div>
+            <div class="col-md-2">
+                {{ form.submit(class="btn btn-primary") }}
+            </div>
+        </div>
     </form>
 
+    <!-- Tarefas concluídas -->
+    <h4 class="mt-5">Tarefas Concluídas</h4>
     {% if posts_check %}
-        {% for post in posts_check %}
-        <div>
-            <!-- {{ post.id }} -->
-            <p>Tarefa: <b>{{ post.body }}</b></p>
-            <p>Até o dia: {{ post.deadline.strftime('%d/%m/%Y') if post.deadline else 'Sem data limite' }}</p>
-            <p>Status: <span style="color: green;">Concluída</span></p>
-            <form action="{{ url_for('incomplete_task', task_id=post.id) }}" method="post" style="display:inline;">
-                {{ form.hidden_tag() }}
-                <button type="submit" class="btn btn-success">Marcar como não concluída</button>
-            </form>
+        <div class="row row-cols-1 g-3">
+            {% for post in posts_check %}
+            <div class="col">
+                <div class="card border-success">
+                    <div class="card-body">
+                        <p class="card-text"><strong>Tarefa:</strong> {{ post.body }}</p>
+                        <p class="card-text">
+                            <strong>Início</strong>
+                            {{ post.timestamp.strftime('%d/%m/%Y') if post.timestamp else 'Sem data de início' }}
+                        </p>
+                        <p class="card-text"><strong>Fim:</strong> 
+                            {{ post.deadline.strftime('%d/%m/%Y') if post.deadline else 'Sem data limite' }}
+                        </p>
+                        <p class="card-text text-success"><strong>Status:</strong> Concluída</p>
+                        <form action="{{ url_for('incomplete_task', task_id=post.id) }}" method="post">
+                            {{ form.hidden_tag() }}
+                            <button type="submit" class="btn btn-outline-secondary">Marcar como não concluída</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
     {% else %}
-        <p>Você ainda não tem tarefas concluídas.</p>
+        <p class="text-muted">Você ainda não tem tarefas concluídas.</p>
     {% endif %}
-
+</div>
 {% endblock %}

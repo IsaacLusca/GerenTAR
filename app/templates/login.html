@@ -1,27 +1,35 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Login</h1>
+<div class="container mt-5" style="max-width: 500px; background-color:#D3D3D3; border-radius: 10px; padding: 20px;">
+    <h2 class="mb-4 text-center">Login</h2>
     <form action="" method="post" novalidate>
         {{ form.hidden_tag() }}
-        <p>
-            {{ form.username.label }} <br>
-            {{ form.username(size=32) }} <br>
-            <!-- Mensagem de erro -->
+        <div class="mb-3">
+            {{ form.username.label(class="form-label") }}
+            {{ form.username(class="form-control", placeholder="Digite seu nome de usuário") }}
             {% for error in form.username.errors %}
-            <span style="color: tomato;">{{ error }}</span>
+                <div class="text-danger small">{{ error }}</div>
             {% endfor %}
-        </p>
-        <p>
-            {{ form.password.label }} <br>
-            {{ form.password(size=32) }} <br>
-            <!-- Mensagem de erro -->
+        </div>
+        <div class="mb-3">
+            {{ form.password.label(class="form-label") }}
+            {{ form.password(class="form-control", placeholder="Digite sua senha") }}
             {% for error in form.password.errors %}
-            <span style="color: tomato;">{{ error }}</span>
+                <div class="text-danger small">{{ error }}</div>
             {% endfor %}
+        </div>
+        <div class="mb-3 form-check">
+            {{ form.remember(class="form-check-input") }}
+            {{ form.remember.label(class="form-check-label") }}
+        </div>
+        <div class="d-grid">
+            {{ form.submit(class="btn btn-primary") }}
+        </div>
+        <p class="mt-3 text-center">
+            Novo usuário?
+            <a href="{{ url_for('register') }}">Clique para registrar!</a>
         </p>
-        <p>{{ form.remember() }} {{ form.remember.label }}</p>
-        <p>{{ form.submit() }}</p>
-        <p>Novo usuário? <a href="{{ url_for('register') }}">Clique para registrar!</a></p>
     </form>
+</div>
 {% endblock %}
