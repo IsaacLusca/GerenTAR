@@ -110,3 +110,13 @@ def incomplete_task(task_id):
     db.session.commit()  # Salva as alterações no banco de dados
     flash('Tarefa marcada como incompleta!')
     return redirect(url_for('index'))
+
+@app.route('/task/<int:task_id>/delete', methods=['POST'])
+@login_required
+def delete_task(task_id):
+    # Busca a tarefa pelo ID e verifica se pertence ao usuário atual
+    task = Task.query.filter_by(id=task_id, user_id=current_user.id).first_or_404()
+    db.session.delete(task)  # Remove a tarefa do banco de dados
+    db.session.commit()  # Salva as alterações no banco de dados
+    flash('Tarefa deletada com sucesso!')
+    return redirect(url_for('index'))

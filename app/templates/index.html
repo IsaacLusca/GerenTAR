@@ -21,10 +21,16 @@
                         <p class="card-text"><strong>Fim:</strong> 
                             {{ post.deadline.strftime('%d/%m/%Y') if post.deadline else 'Sem data limite' }}
                         </p>
-                        <form action="{{ url_for('complete_task', task_id=post.id) }}" method="post">
-                            {{ form.hidden_tag() }}
-                            <button type="submit" class="btn btn-success">Marcar como concluída</button>
-                        </form>
+                        <div class="d-flex justify-content-between">
+                            <form action="{{ url_for('complete_task', task_id=post.id) }}" method="post">
+                                {{ form.hidden_tag() }}
+                                <button type="submit" class="btn btn-success">Marcar como concluída</button>
+                            </form>
+                            <form action="{{ url_for('delete_task', task_id=post.id) }}" method="post" style="display:inline;">
+                                {{ form.hidden_tag() }}
+                                <button type="submit" class="btn btn-danger">Deletar</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -59,7 +65,7 @@
     <!-- Tarefas concluídas -->
     <h4 class="mt-5">Tarefas Concluídas</h4>
     {% if posts_check %}
-        <div class="row row-cols-1 g-3">
+        <div class="row row-cols-1 g-3 mb-3">
             {% for post in posts_check %}
             <div class="col">
                 <div class="card border-success">
@@ -73,10 +79,16 @@
                             {{ post.deadline.strftime('%d/%m/%Y') if post.deadline else 'Sem data limite' }}
                         </p>
                         <p class="card-text text-success"><strong>Status:</strong> Concluída</p>
-                        <form action="{{ url_for('incomplete_task', task_id=post.id) }}" method="post">
-                            {{ form.hidden_tag() }}
-                            <button type="submit" class="btn btn-outline-secondary">Marcar como não concluída</button>
-                        </form>
+                        <div class="d-flex justify-content-between">
+                            <form action="{{ url_for('incomplete_task', task_id=post.id) }}" method="post">
+                                {{ form.hidden_tag() }}
+                                <button type="submit" class="btn btn-outline-secondary">Marcar como não concluída</button>
+                            </form>
+                            <form action="{{ url_for('delete_task', task_id=post.id) }}" method="post" style="display:inline;">
+                                {{ form.hidden_tag() }}
+                                <button type="submit" class="btn btn-danger">Deletar</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
