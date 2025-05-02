@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, DateField
-from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
+from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError, Optional
 import sqlalchemy as sa
 from app import db
 from app.models import User
@@ -33,5 +33,5 @@ class RegistrationForm(FlaskForm):
         
 class SubmitTaskForm(FlaskForm):
     body = StringField('Tarefa', validators=[DataRequired()])
-    deadline = DateField('Prazo', validators=[DataRequired()])
+    deadline = DateField('Prazo', validators=[Optional()])
     submit = SubmitField('Adicionar Tarefa')

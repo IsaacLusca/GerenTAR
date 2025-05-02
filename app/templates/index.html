@@ -3,14 +3,20 @@
 {% block content %}
     <!-- <h1>Olá, {{ current_user.username }}</h1> -->
     <p>Bem-vindo ao GerenTar, visualize e adicione tarefas!</p>
-    {% for post in posts %}
-    <div>
-        <p>Tarefa {{ post.id }}: <b>{{ post.body }}</b></p>
-        <p>Até o dia: {{ post.deadline.strftime('%d/%m/%Y') if post.deadline else 'Sem data limite' }}</p>
-    </div>
-    {% endfor %}
+    {% if posts %}
+        {% for post in posts %}
+        <div>
+            {% if not post.status %}
+            <p>Tarefa {{ post.id }}: <b>{{ post.body }}</b></p>
+            <p>Até o dia: {{ post.deadline.strftime('%d/%m/%Y') if post.deadline else 'Sem data limite' }}</p>
+            {% endif %}
+        </div>
+        {% endfor %}
+    {% else %}
+        <p>Você ainda não tem tarefas adicionadas.</p>
+    {% endif %}
     
-    <form action="" method="post">
+    <form action="" method="post" novalidate>
         {{ form.hidden_tag() }}
         <p>
             {{ form.body.label }} 

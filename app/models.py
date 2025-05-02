@@ -46,6 +46,7 @@ class Task(db.Model):
                                                index=True)
 
     author: so.Mapped[User] = so.relationship(back_populates='tasks')
+    status: so.Mapped[bool] = so.mapped_column(default=False)
 
     def __repr__(self):
         return '<Post {}>'.format(self.body)
