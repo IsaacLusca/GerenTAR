@@ -3,30 +3,42 @@ from flask import render_template, flash, redirect, url_for, request
 from urllib.parse import urlsplit
 from app.forms import LoginForm
 from flask_login import current_user, login_user, logout_user, login_required
-from app.models import User
+from app.models import User, Task
 import sqlalchemy as sa
-from app.forms import RegistrationForm
+from app.forms import RegistrationForm, SubmitTaskForm
 
-@app.route('/')
-@app.route('/index')
+@app.route('/', methods=['GET', 'POST'])
+@app.route('/index', methods=['GET', 'POST'])
 @login_required
 def index():
     # user = {'username': 'Isaac'}
-    posts = [
-        {
-            'autor': {'username': 'John'},
-            'body': 'Bela manhã!'
-        },
-        {
-            'autor': {'username': 'Susan'},
-            'body': 'Amanhã é sexta-feira!'
-        },
-        {
-            'autor': {'username': 'Mary'},
-            'body': 'Vamos ao cinema?'
-        },
-    ]
-    return render_template('index.html', title='Home', posts=posts)
+    # posts = [
+    #     {
+    #         'autor': {'username': 'John'},
+    #         'body': 'Bela manhã!'
+    #     },
+    #     {
+    #         'autor': {'username': 'Susan'},
+    #         'body': 'Amanhã é sexta-feira!'
+    #     },
+    #     {
+    #         'autor': {'username': 'Mary'},
+    #         'body': 'Vamos ao cinema?'
+    #     },
+    # ]
+    form = SubmitTaskForm()
+    if form.validate_on_submit():
+        # Cria uma nova tarefa com os dados do formulário
+        task = Task(body=form.body.data, deadline=form.deadline.data, author=current_user)
+        # Adiciona a nova tarefa à sessão do banco de dados e faz o commit para salvar as alterações
+        db.session.add(task)
+        db.session.commit()
+        flash('Tarefa adicionada com sucesso!')
+        return redirect(url_for('index'))
+    
+    # Busca todas as tarefas do usuário atual
+    posts = Task.query.filter_by(author=current_user).all()
+    return render_template('index.html', title='Home', form=form, posts=posts)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

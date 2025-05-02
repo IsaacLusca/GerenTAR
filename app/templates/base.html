@@ -11,7 +11,12 @@
 </head>
 <body>
     <div>
-        Gerentar: 
+        {% if current_user.is_authenticated %}
+        <h2>Olá, {{ current_user.username }}</h2>
+        {% else %}
+        <p>GerenTar</p>
+        {% endif %}
+
         <!-- melhor forma de implementar urls -->
         <a href="{{ url_for('index') }}">Home</a>
         <!-- jinja para logout -->
