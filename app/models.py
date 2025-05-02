@@ -4,8 +4,17 @@ import sqlalchemy as sa
 import sqlalchemy.orm as so
 from app import db
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import UserMixin
+from app import login
 
-class User(db.Model):
+# função para carregar o usuário com base no ID, para que comunique com o Flask-Login 
+@login.user_loader
+def load_user(id):
+    return db.session.get(User, int(id))
+
+# userMixin é uma classe do Flask-Login que fornece métodos e propriedades para gerenciar a autenticação de usuários.
+# sendo esses metodos e propriedades: is_authenticated, is_active, is_anonymous, get_id
+class User(db.Model, UserMixin):
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
     username: so.Mapped[str] = so.mapped_column(sa.String(64), index=True,
                                                 unique=True)
