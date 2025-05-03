@@ -1,6 +1,11 @@
-# Gerenciador de Tarefas
-
-Este é um projeto Flask simples para gerenciamento de tarefas.
+# GerenTAR
+#### Video Demo:  <https://www.youtube.com/watch?v=9biurFkAxCk>
+#### Description:
+O **GerenTAR** é um sistema desenvolvido para o gerenciamento simples de tarefas, sendo possível:
+- Criar uma conta e fazer login para acessar suas tarefas;
+- Adicionar novas tasks, definindo uma descrição e uma data de conclusão;
+- Visualizar tarefas pendentes e concluídas;
+- Remover as tasks quando não forem mais necessárias.
 
 ## Como rodar:
 
