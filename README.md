@@ -1,6 +1,6 @@
-# Gerenciador de Tarefas
+# GerenTAR
 
-Este é um projeto Flask simples para gerenciamento de tarefas.
+Este é um projeto Flask simples para gerenciamento de tarefas. Permitindo adicionar e remover tasks.
 
 ## Como rodar:
 
