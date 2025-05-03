@@ -1,6 +1,4 @@
 # GerenTAR
-<<<<<<< HEAD
-#### Video Demo:  <https://www.youtube.com/watch?v=9biurFkAxCk>
 #### Description:
 O **GerenTAR** é um sistema desenvolvido para o gerenciamento simples de tarefas, sendo possível:
 - Criar uma conta e fazer login para acessar suas tarefas;
