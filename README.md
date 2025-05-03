@@ -1,6 +1,6 @@
 # GerenTAR
 
-Este é um projeto Flask simples para gerenciamento de tarefas. Permitindo adicionar e remover tasks.
+Este é um projeto Flask simples para gerenciamento de tarefas. Ao criar e fazer login com seu usuário, é possível adicionar tasks, visualizar tanto as tasks pendentes quanto tasks concluídas e caso necessário, remover uma task.
 
 ## Como rodar:
 
