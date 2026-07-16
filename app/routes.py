@@ -1,3 +1,4 @@
+from datetime import datetime, timezone
 from app import app, db
 from flask import render_template, flash, redirect, url_for, request
 from urllib.parse import urlsplit
@@ -33,13 +34,13 @@ def index():
         # Adiciona a nova tarefa à sessão do banco de dados e faz o commit para salvar as alterações
         db.session.add(task)
         db.session.commit()
-        flash('Tarefa adicionada com sucesso!')
+        flash('Tarefa adicionada com sucesso!', 'success')
         return redirect(url_for('index'))
     
     # Busca todas as tarefas do usuário atual
     posts = Task.query.filter_by(author=current_user, status=False).all()
     posts_check = Task.query.filter_by(author=current_user, status=True).all()
-    return render_template('index.html', title='Home', form=form, posts=posts, posts_check=posts_check)
+    return render_template('index.html', title='Home', form=form, posts=posts, posts_check=posts_check, utcnow=datetime.now(timezone.utc))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -53,7 +54,7 @@ def login():
     if form.validate_on_submit():
         user = db.session.scalar(sa.select(User).where(User.username == form.username.data)) 
         if user is None or not user.check_password(form.password.data):
-            flash('Usuário ou senha inválidos')
+            flash('Usuário ou senha inválidos', 'warning')
             return redirect(url_for('login'))
         login_user(user, remember=form.remember.data)
         # Verifica se existe um parâmetro 'next' na URL, se não existir, redireciona para a página inicial
@@ -81,7 +82,7 @@ def register():
         # Adiciona o novo usuário à sessão do banco de dados e faz o commit para salvar as alterações
         db.session.add(user)
         db.session.commit()
-        flash('Você foi registrado com sucesso!')
+        flash('Você foi registrado com sucesso!', 'success')
         return redirect(url_for('login'))
     return render_template('register.html', title='Registrar', form=form)
 
@@ -98,7 +99,7 @@ def complete_task(task_id):
     task = Task.query.filter_by(id=task_id, user_id=current_user.id).first_or_404()
     task.status = True  # Atualiza o status para True
     db.session.commit()  # Salva as alterações no banco de dados
-    flash('Tarefa marcada como concluída!')
+    flash('Tarefa marcada como concluída!', 'success')
     return redirect(url_for('index'))
 
 @app.route('/task/<int:task_id>/incomplete', methods=['POST'])
@@ -108,7 +109,7 @@ def incomplete_task(task_id):
     task = Task.query.filter_by(id=task_id, user_id=current_user.id).first_or_404()
     task.status = False  # Atualiza o status para True
     db.session.commit()  # Salva as alterações no banco de dados
-    flash('Tarefa marcada como incompleta!')
+    flash('Tarefa marcada como incompleta!', 'warning')
     return redirect(url_for('index'))
 
 @app.route('/task/<int:task_id>/delete', methods=['POST'])
@@ -118,5 +119,5 @@ def delete_task(task_id):
     task = Task.query.filter_by(id=task_id, user_id=current_user.id).first_or_404()
     db.session.delete(task)  # Remove a tarefa do banco de dados
     db.session.commit()  # Salva as alterações no banco de dados
-    flash('Tarefa deletada com sucesso!')
+    flash('Tarefa deletada com sucesso!', 'success')
     return redirect(url_for('index'))
