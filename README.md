@@ -1,21 +1,21 @@
 # GerenTAR
 
-Sistema web para gerenciamento simples de tarefas, desenvolvido com Flask.
+Sistema web para gerenciamento de tarefas, desenvolvido com Flask.
 
 ## Funcionalidades
 
-- Criar conta e fazer login para acessar suas tarefas
-- Adicionar novas tarefas com descrição e data de conclusão
+- Criar conta e fazer login para gerenciar suas tarefas
+- Adicionar tarefas com descrição e data de conclusão
 - Visualizar tarefas pendentes e concluídas com estatísticas
-- Marcar tarefas como concluídas ou reabri-las
-- Excluir tarefas quando não forem mais necessárias
-- Interface escura moderna com indicadores visuais de prazo
+- Marcar como concluída, reabrir ou excluir tarefas
+- Indicadores visuais de prazo (seguro, próximo, vencido)
+- Tema claro e amigável
 
 ## Tecnologias
 
 - **Backend:** Python, Flask, SQLAlchemy, Flask-Login, Flask-Migrate
-- **Frontend:** HTML, CSS (tema escuro personalizado), Jinja2
-- **Banco de dados:** SQLite (desenvolvimento)
+- **Frontend:** HTML, CSS (tema claro personalizado), Jinja2
+- **Banco de dados:** SQLite
 
 ## Como rodar
 
@@ -35,7 +35,7 @@ pip install -r requerements.txt
 # Configure o banco de dados
 flask db upgrade
 
-# Crie o usuário de teste
+# Popule com dados de exemplo (usuário + tarefas)
 flask seed
 
 # Execute o servidor
@@ -43,6 +43,14 @@ python scripts.py
 ```
 
 Acesse em: `http://localhost:5000`
+
+## Comandos úteis
+
+| Comando | Descrição |
+|---------|-----------|
+| `flask seed` | Cria usuário teste + tarefas de exemplo |
+| `flask reset` | Remove dados e recria do zero |
+| `flask db upgrade` | Aplica migrações do banco |
 
 ## Usuário de teste
 
@@ -52,7 +60,7 @@ Acesse em: `http://localhost:5000`
 
 > Você também pode criar uma nova conta na página de registro.
 
-## Estrutura do projeto
+## Estrutura
 
 ```
 GerenTAR/
@@ -65,10 +73,10 @@ GerenTAR/
 │   │   └── register.html      # Página de registro
 │   ├── __init__.py            # Inicialização do app
 │   ├── forms.py               # Formulários WTForms
-│   ├── models.py              # Modelos do banco
+│   ├── models.py              # Modelos User e Task
 │   └── routes.py              # Rotas da aplicação
 ├── migrations/                # Migrações do banco
-├── scripts.py                 # Ponto de entrada
+├── scripts.py                 # Ponto de entrada + comandos CLI
 ├── config.py                  # Configurações
 └── requerements.txt           # Dependências
 ```
