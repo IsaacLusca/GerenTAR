@@ -78,7 +78,7 @@
             Prazo: 
             {% if post.deadline %}
             <span class="
-              {% set diff = (post.deadline - utcnow).days %}
+              {% set diff = (post.deadline.date() - utcnow.date()).days %}
               {% if diff < 0 %}deadline-urgent
               {% elif diff <= 2 %}deadline-warn
               {% else %}deadline-safe{% endif %}

@@ -1,9 +1,9 @@
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timedelta
 from app import app, db
 from app.models import User, Task
 
 def criar_tarefas_exemplo(user):
-    today = datetime.now(timezone.utc)
+    today = datetime.utcnow()
     tarefas = [
         Task(body='Revisar relatório mensal', deadline=today + timedelta(days=5), author=user, status=False),
         Task(body='Comprar material de escritório', deadline=today + timedelta(days=1), author=user, status=False),

@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import datetime
 from app import app, db
 from flask import render_template, flash, redirect, url_for, request
 from urllib.parse import urlsplit
@@ -40,7 +40,7 @@ def index():
     # Busca todas as tarefas do usuário atual
     posts = Task.query.filter_by(author=current_user, status=False).all()
     posts_check = Task.query.filter_by(author=current_user, status=True).all()
-    return render_template('index.html', title='Home', form=form, posts=posts, posts_check=posts_check, utcnow=datetime.now(timezone.utc))
+    return render_template('index.html', title='Home', form=form, posts=posts, posts_check=posts_check, utcnow=datetime.utcnow())
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
