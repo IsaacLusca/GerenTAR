@@ -2,6 +2,8 @@
 
 Sistema web para gerenciamento de tarefas, desenvolvido com Flask.
 
+🌐 **Deploy:** [https://gerentar.onrender.com](https://gerentar.onrender.com)
+
 ## Funcionalidades
 
 - Criar conta e fazer login para gerenciar suas tarefas
@@ -13,11 +15,11 @@ Sistema web para gerenciamento de tarefas, desenvolvido com Flask.
 
 ## Tecnologias
 
-- **Backend:** Python, Flask, SQLAlchemy, Flask-Login, Flask-Migrate
-- **Frontend:** HTML, CSS (tema claro personalizado), Jinja2
-- **Banco de dados:** SQLite
+- **Backend:** Python, Flask, SQLAlchemy, Flask-Login
+- **Frontend:** HTML, CSS, Jinja2
+- **Banco de dados:** SQLite (desenvolvimento) / PostgreSQL (produção)
 
-## Como rodar
+## Como rodar localmente
 
 ```bash
 # Clone o repositório
@@ -30,27 +32,13 @@ python -m venv .venv
 # source .venv/bin/activate   # Linux/Mac
 
 # Instale as dependências
-pip install -r requerements.txt
+pip install -r requirements.txt
 
-# Configure o banco de dados
-flask db upgrade
-
-# Popule com dados de exemplo (usuário + tarefas)
-flask seed
-
-# Execute o servidor
+# Execute o servidor (cria tabelas e seed automaticamente)
 python scripts.py
 ```
 
 Acesse em: `http://localhost:5000`
-
-## Comandos úteis
-
-| Comando | Descrição |
-|---------|-----------|
-| `flask seed` | Cria usuário teste + tarefas de exemplo |
-| `flask reset` | Remove dados e recria do zero |
-| `flask db upgrade` | Aplica migrações do banco |
 
 ## Usuário de teste
 
@@ -59,6 +47,14 @@ Acesse em: `http://localhost:5000`
 | `teste` | `123`  |
 
 > Você também pode criar uma nova conta na página de registro.
+
+## Deploy no Render
+
+O deploy é automático via `render.yaml`. A cada push na branch `main`:
+
+1. Render instala as dependências
+2. Gunicorn inicia o app
+3. Tabelas e seed são criados automaticamente na inicialização
 
 ## Estrutura
 
@@ -71,12 +67,14 @@ GerenTAR/
 │   │   ├── index.html         # Dashboard de tarefas
 │   │   ├── login.html         # Página de login
 │   │   └── register.html      # Página de registro
-│   ├── __init__.py            # Inicialização do app
+│   ├── __init__.py            # Inicialização do app + seed automático
 │   ├── forms.py               # Formulários WTForms
 │   ├── models.py              # Modelos User e Task
 │   └── routes.py              # Rotas da aplicação
-├── migrations/                # Migrações do banco
+├── .python-version            # Versão do Python (Render)
+├── render.yaml                # Configuração de deploy
+├── render_start.sh            # Script de inicialização
 ├── scripts.py                 # Ponto de entrada + comandos CLI
 ├── config.py                  # Configurações
-└── requerements.txt           # Dependências
+└── requirements.txt           # Dependências
 ```
