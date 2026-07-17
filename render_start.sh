@@ -3,7 +3,7 @@ set -e
 
 export FLASK_APP=scripts.py
 
-flask db upgrade 2>/dev/null || flask db init && flask db migrate -m "initial" && flask db upgrade
+flask db upgrade
 flask seed
 
-gunicorn app:app
+exec gunicorn app:app --bind 0.0.0.0:${PORT:-8000}
