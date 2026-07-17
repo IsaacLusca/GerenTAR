@@ -18,3 +18,12 @@ login.login_view = 'login'  # Define a view para redirecionar quando o usuário 
 
 # models serve para definir as classes que representam as tabelas do banco de dados
 from app import routes, models
+
+with app.app_context():
+    db.create_all()
+    from app.models import User
+    if not User.query.filter_by(username='teste').first():
+        user = User(username='teste', email='teste@email.com')
+        user.set_password('123')
+        db.session.add(user)
+        db.session.commit()
